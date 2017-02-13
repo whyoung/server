@@ -1,13 +1,14 @@
 package server;
 
+import processor.Processor;
+import processor.ServletProcessor;
+import processor.StaticProcessor;
 import request.Request;
 import response.Response;
 
 import java.net.Socket;
 import java.net.ServerSocket;
 import java.net.InetAddress;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.IOException;
 import java.io.File;
 
@@ -22,8 +23,6 @@ public class HttpServer {
      * 默认端口号
      */
     private static final int PORT = 8080;
-
-    private static final String SHUTDOWN_COMMAND = "/SHUTDOWN";
 
     private boolean shutdown = false;
 
@@ -51,20 +50,21 @@ public class HttpServer {
         }
         while (!shutdown) {
             Socket socket;
-            InputStream input;
-            OutputStream output;
             try {
                 socket = serverSocket.accept();
-                input = socket.getInputStream();
-                output = socket.getOutputStream();
-                Request request = new Request(input);
+                Processor processor;
+                Request request = new Request(socket.getInputStream());
                 request.parse();
+                System.out.println(request.getUri());
                 System.out.println(request.getParamMaps());
-                Response response = new Response(output);
-                response.setRequest(request);
-                response.sendStaticResource();
+                if(request.isServlet()) {
+                    processor = new ServletProcessor();
+                } else {
+                    processor = new StaticProcessor();
+                }
+                processor.process(request, new Response(socket.getOutputStream()));
                 socket.close();
-                shutdown = SHUTDOWN_COMMAND.equals(request.getUri());
+                shutdown = shutdown();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -74,5 +74,13 @@ public class HttpServer {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 是否关闭
+     * @return
+     */
+    private boolean shutdown() {
+        return false;
     }
 }

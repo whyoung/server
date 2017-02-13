@@ -11,6 +11,16 @@ public class Request {
 
     private InputStream input;
     private String uri;
+
+    /**
+     * 是否是servlet资源
+     */
+    private boolean servlet;
+
+    /**
+     * servlet命名规范
+     */
+    private static final String SERVLET_PATTERN = "^/\\w+Servlet$";
     /**
      * 参数字典
      */
@@ -51,10 +61,12 @@ public class Request {
                 String requestUri = requestString.substring(start + 1, end);
                 int paramIndex = requestUri.indexOf("?");
                 if(paramIndex == Constant.EOF) {
+                    servlet = requestUri.matches(SERVLET_PATTERN);
                     return requestUri;
                 } else {
                     String[] paramList = requestUri.substring(paramIndex+1).split("&");
                     if(paramList == null || paramList.length == 0) {
+                        servlet = requestUri.matches(SERVLET_PATTERN);
                         return requestUri;
                     } else {
                         for(String param : paramList) {
@@ -64,7 +76,9 @@ public class Request {
                             }
                         }
                     }
-                    return requestUri.substring(0, paramIndex);
+                    requestUri = requestUri.substring(0, paramIndex);
+                    servlet = requestUri.matches(SERVLET_PATTERN);
+                    return requestUri;
                 }
             }
         }
@@ -77,5 +91,9 @@ public class Request {
 
     public Map<String, String> getParamMaps() {
         return this.paramMaps;
+    }
+
+    public boolean isServlet() {
+        return servlet;
     }
 }

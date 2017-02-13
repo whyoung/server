@@ -70,4 +70,15 @@ public class Response {
             }
         }
     }
+
+    /**
+     * 响应servlet请求
+     */
+    public void responseServlet() {
+        try {
+            output.write(("<h1>Servlet Request:"+request.getUri()+"</h1>").getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
