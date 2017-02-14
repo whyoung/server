@@ -19,5 +19,5 @@ public final class Constant {
     /**
      * 默认端口号
      */
-    public static final int PORT = 8080;
+    public static final int PORT = 10000;
 }

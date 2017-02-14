@@ -1,9 +1,7 @@
 package response;
 
 import request.Request;
-import server.HttpServer;
 import utils.Constant;
-
 import java.io.OutputStream;
 import java.io.IOException;
 import java.io.FileInputStream;
