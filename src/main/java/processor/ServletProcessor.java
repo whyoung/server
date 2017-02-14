@@ -47,7 +47,7 @@ public class ServletProcessor implements Processor {
     public void process(Request request, Response response) {
         String servletPath = servletMap.get(request.getUri());
         if(servletPath == null) {
-            throw new RuntimeException("can not find servlet of "+request.getUri());
+            response.responseServlet("<h1> can not find servlet "+request.getUri()+"</h1>");
         } else {
             try {
                 Servlet servlet = (Servlet) Class.forName(servletPath).newInstance();

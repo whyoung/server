@@ -9,6 +9,6 @@ public class FirstServlet implements Servlet {
         System.out.println(request.getUri());
         System.out.println(request.getParamMaps());
         response.setRequest(request);
-        response.responseServlet();
+        response.responseServlet(("<h1>Servlet Request:"+request.getUri()+"</h1>"));
     }
 }

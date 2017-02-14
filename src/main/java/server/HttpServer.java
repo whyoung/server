@@ -5,18 +5,15 @@ import processor.ServletProcessor;
 import processor.StaticProcessor;
 import request.Request;
 import response.Response;
+import utils.Constant;
+
 import java.net.Socket;
 import java.net.ServerSocket;
 import java.net.InetAddress;
 import java.io.IOException;
-import java.io.File;
+
 
 public class HttpServer {
-
-    /**
-     * 静态文件存放地址
-     */
-    public static final String WEB_ROOT = System.getProperty("user.dir") + File.separator + "webroot";
 
     /**
      * 默认端口号
@@ -35,7 +32,7 @@ public class HttpServer {
     private void start() {
         ServerSocket serverSocket = null;
         try {
-            serverSocket = new ServerSocket(PORT, 1, InetAddress.getByName("127.0.0.1"));
+            serverSocket = new ServerSocket(Constant.PORT, 1, InetAddress.getByName("127.0.0.1"));
         } catch (IOException e) {
             if(serverSocket != null) {
                 try {

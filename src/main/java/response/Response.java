@@ -2,6 +2,7 @@ package response;
 
 import request.Request;
 import server.HttpServer;
+import utils.Constant;
 
 import java.io.OutputStream;
 import java.io.IOException;
@@ -40,9 +41,9 @@ public class Response {
         try {
             File file;
             if(request.getUri() == null || "/".equals(request.getUri())) {
-                file = new File(HttpServer.WEB_ROOT, INDEX_PAGE);
+                file = new File(Constant.WEB_ROOT, INDEX_PAGE);
             } else {
-                file = new File(HttpServer.WEB_ROOT, request.getUri());
+                file = new File(Constant.WEB_ROOT, request.getUri());
             }
             if (file.exists()) {
                 byte[] bytes = new byte[BUFFER_SIZE];
@@ -74,9 +75,9 @@ public class Response {
     /**
      * 响应servlet请求
      */
-    public void responseServlet() {
+    public void responseServlet(String msg) {
         try {
-            output.write(("<h1>Servlet Request:"+request.getUri()+"</h1>").getBytes());
+            output.write(msg.getBytes());
         } catch (IOException e) {
             e.printStackTrace();
         }
