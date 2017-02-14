@@ -5,7 +5,6 @@ import processor.ServletProcessor;
 import processor.StaticProcessor;
 import request.Request;
 import response.Response;
-
 import java.net.Socket;
 import java.net.ServerSocket;
 import java.net.InetAddress;
@@ -55,8 +54,6 @@ public class HttpServer {
                 Processor processor;
                 Request request = new Request(socket.getInputStream());
                 request.parse();
-                System.out.println(request.getUri());
-                System.out.println(request.getParamMaps());
                 if(request.isServlet()) {
                     processor = new ServletProcessor();
                 } else {

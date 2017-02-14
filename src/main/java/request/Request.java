@@ -43,6 +43,7 @@ public class Request {
                 request.append((char) buffer[j]);
             }
             uri = setUri(request.toString());
+            System.out.println(request);
         } catch (IOException e) {
             e.printStackTrace();
         }
